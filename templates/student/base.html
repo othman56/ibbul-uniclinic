@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block sidebar_links %}
+  <div class="nav-section">My Health</div>
+  <a href="{{ url_for('student.dashboard') }}" class="sidebar-link {% if request.endpoint=='student.dashboard' %}active{% endif %}">
+    <i class="bi bi-grid-1x2"></i> My Dashboard
+  </a>
+  <a href="{{ url_for('student.appointments') }}" class="sidebar-link {% if request.endpoint=='student.appointments' %}active{% endif %}">
+    <i class="bi bi-calendar-check"></i> My Appointments
+  </a>
+  <a href="{{ url_for('student.prescriptions') }}" class="sidebar-link {% if request.endpoint=='student.prescriptions' %}active{% endif %}">
+    <i class="bi bi-capsule"></i> My Prescriptions
+  </a>
+  <a href="{{ url_for('student.billing') }}" class="sidebar-link {% if request.endpoint=='student.billing' %}active{% endif %}">
+    <i class="bi bi-receipt"></i> My Bills
+  </a>
+{% endblock %}

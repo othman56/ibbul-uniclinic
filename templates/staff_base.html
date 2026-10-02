@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block sidebar_links %}
+  <div class="nav-section">Main</div>
+  <a href="{{ url_for('dashboard') }}" class="sidebar-link {% if request.endpoint=='dashboard' %}active{% endif %}">
+    <i class="bi bi-grid-1x2"></i> Dashboard
+  </a>
+  <div class="nav-section">Patients</div>
+  <a href="{{ url_for('patients') }}" class="sidebar-link {% if 'patient' in (request.endpoint or '') and request.endpoint!='new_patient' %}active{% endif %}">
+    <i class="bi bi-people"></i> All Patients
+  </a>
+  <a href="{{ url_for('new_patient') }}" class="sidebar-link {% if request.endpoint=='new_patient' %}active{% endif %}">
+    <i class="bi bi-person-plus"></i> Register Patient
+  </a>
+  <div class="nav-section">Clinical</div>
+  <a href="{{ url_for('appointments') }}" class="sidebar-link {% if 'appointment' in (request.endpoint or '') %}active{% endif %}">
+    <i class="bi bi-calendar-check"></i> Appointments
+  </a>
+  <a href="{{ url_for('prescriptions') }}" class="sidebar-link {% if 'prescription' in (request.endpoint or '') %}active{% endif %}">
+    <i class="bi bi-capsule"></i> Prescriptions
+  </a>
+  <div class="nav-section">Finance</div>
+  <a href="{{ url_for('billing') }}" class="sidebar-link {% if 'bill' in (request.endpoint or '') %}active{% endif %}">
+    <i class="bi bi-receipt"></i> Billing
+  </a>
+  <div class="nav-section">Analytics</div>
+  <a href="{{ url_for('reports') }}" class="sidebar-link {% if request.endpoint=='reports' %}active{% endif %}">
+    <i class="bi bi-bar-chart-line"></i> Reports
+  </a>
+{% endblock %}

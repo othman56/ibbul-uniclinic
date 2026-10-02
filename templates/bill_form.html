@@ -1,0 +1,13 @@
+{% extends 'staff_base.html' %}
+{% block title %}Create Bill{% endblock %}{% block page_title %}Create Bill{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-6"><div class="card">
+<div class="card-header py-3 px-4"><i class="bi bi-receipt me-2 text-success"></i>New Bill</div>
+<div class="card-body p-4"><form method="POST">
+  <div class="mb-3"><label class="form-label">Patient *</label><select name="patient_id" class="form-select" required><option value="">— Select Patient —</option>{% for p in patients %}<option value="{{ p.id }}">{{ p.name }} ({{ p.matric_no }})</option>{% endfor %}</select></div>
+  <div class="mb-3"><label class="form-label">Date *</label><input type="date" name="date" class="form-control" required value="{{ today }}"></div>
+  <div class="mb-3"><label class="form-label">Description *</label><input type="text" name="description" class="form-control" required placeholder="e.g. Consultation fee, Lab test…"></div>
+  <div class="mb-3"><label class="form-label">Amount (₦) *</label><input type="number" name="amount" class="form-control" step="0.01" min="0" required placeholder="0.00"></div>
+  <div class="d-flex gap-2"><button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Create Bill</button><a href="{{ url_for('billing') }}" class="btn btn-outline-secondary">Cancel</a></div>
+</form></div>
+</div></div></div>{% endblock %}

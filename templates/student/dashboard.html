@@ -1,0 +1,100 @@
+{% extends 'student/base.html' %}
+{% block title %}My Dashboard{% endblock %}
+{% block page_title %}Welcome, {{ patient.name }}{% endblock %}
+{% block content %}
+
+<!-- Patient welcome banner -->
+<div class="card mb-4" style="background:linear-gradient(135deg,#006B4E,#009966);border:none;color:#fff;">
+  <div class="card-body p-4 d-flex align-items-center gap-4">
+    <div style="width:64px;height:64px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <i class="bi bi-person-fill fs-2"></i>
+    </div>
+    <div>
+      <h4 class="fw-bold mb-0" style="font-family:'Fraunces',serif;">{{ patient.name }}</h4>
+      <div style="opacity:.85;font-size:.875rem;">Matric No: <strong>{{ patient.matric_no }}</strong> &nbsp;|&nbsp; Blood Group: <strong>{{ patient.blood_group or 'N/A' }}</strong> &nbsp;|&nbsp; Gender: <strong>{{ patient.gender or 'N/A' }}</strong></div>
+      <div style="opacity:.7;font-size:.8rem;margin-top:.25rem;">IBBU University Clinic — Patient Portal</div>
+    </div>
+  </div>
+</div>
+
+<!-- Stat cards -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="stat-card" style="background:linear-gradient(135deg,#1565c0,#1e88e5);">
+      <p>My Appointments</p><h2>{{ stats.appointments }}</h2>
+      <i class="bi bi-calendar-check stat-icon"></i>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card" style="background:linear-gradient(135deg,#006B4E,#009966);">
+      <p>My Prescriptions</p><h2>{{ stats.prescriptions }}</h2>
+      <i class="bi bi-capsule stat-icon"></i>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card" style="background:linear-gradient(135deg,{% if stats.unpaid_bills > 0 %}#b71c1c,#e53935{% else %}#1b5e20,#388e3c{% endif %});">
+      <p>Outstanding Bills</p><h2>{{ stats.unpaid_bills }}</h2>
+      <i class="bi bi-receipt stat-icon"></i>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Upcoming appointments -->
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center py-3 px-4">
+        <span><i class="bi bi-calendar-event me-2 text-primary"></i>Upcoming Appointments</span>
+        <a href="{{ url_for('student.appointments') }}" class="btn btn-sm btn-outline-primary">View All</a>
+      </div>
+      <div class="card-body p-0">
+        {% if upcoming %}
+        <table class="table table-hover mb-0">
+          <thead class="table-light"><tr><th class="px-3">Date</th><th>Time</th><th>Reason</th><th>Status</th></tr></thead>
+          <tbody>{% for a in upcoming %}<tr>
+            <td class="px-3 fw-semibold">{{ a.date }}</td>
+            <td>{{ a.time }}</td>
+            <td style="font-size:.85rem;">{{ a.reason or '—' }}</td>
+            <td><span class="badge bg-warning text-dark">{{ a.status }}</span></td>
+          </tr>{% endfor %}</tbody>
+        </table>
+        {% else %}
+        <div class="text-center py-4 text-muted"><i class="bi bi-calendar-check fs-2 d-block mb-1"></i><small>No upcoming appointments.</small></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent prescriptions -->
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center py-3 px-4">
+        <span><i class="bi bi-capsule me-2 text-success"></i>Recent Prescriptions</span>
+        <a href="{{ url_for('student.prescriptions') }}" class="btn btn-sm btn-outline-primary">View All</a>
+      </div>
+      <div class="card-body p-0">
+        {% if recent_rx %}
+        <table class="table table-hover mb-0">
+          <thead class="table-light"><tr><th class="px-3">Date</th><th>Diagnosis</th><th>Medication</th></tr></thead>
+          <tbody>{% for rx in recent_rx %}<tr>
+            <td class="px-3">{{ rx.date }}</td>
+            <td><span class="badge bg-info-subtle text-info">{{ rx.diagnosis }}</span></td>
+            <td style="font-size:.85rem;">{{ rx.medication }}</td>
+          </tr>{% endfor %}</tbody>
+        </table>
+        {% else %}
+        <div class="text-center py-4 text-muted"><i class="bi bi-capsule fs-2 d-block mb-1"></i><small>No prescriptions yet.</small></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if stats.unpaid_bills > 0 %}
+<div class="alert alert-warning mt-4 d-flex align-items-center gap-3">
+  <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+  <div>You have <strong>{{ stats.unpaid_bills }} unpaid bill(s)</strong> outstanding. Please visit the clinic to make payment.
+  <a href="{{ url_for('student.billing') }}" class="alert-link ms-2">View Bills →</a></div>
+</div>
+{% endif %}
+{% endblock %}

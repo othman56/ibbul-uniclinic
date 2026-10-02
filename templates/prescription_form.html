@@ -1,0 +1,17 @@
+{% extends 'staff_base.html' %}
+{% block title %}New Prescription{% endblock %}{% block page_title %}New Prescription{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-7"><div class="card">
+<div class="card-header py-3 px-4"><i class="bi bi-capsule me-2 text-success"></i>Prescription / Medical Record</div>
+<div class="card-body p-4"><form method="POST">
+  <div class="row g-3">
+    <div class="col-md-8"><label class="form-label">Patient *</label><select name="patient_id" class="form-select" required><option value="">— Select Patient —</option>{% for p in patients %}<option value="{{ p.id }}">{{ p.name }} ({{ p.matric_no }})</option>{% endfor %}</select></div>
+    <div class="col-md-4"><label class="form-label">Date *</label><input type="date" name="date" class="form-control" required value="{{ today }}"></div>
+    <div class="col-12"><label class="form-label">Diagnosis *</label><input type="text" name="diagnosis" class="form-control" required placeholder="e.g. Malaria, Typhoid…"></div>
+    <div class="col-md-6"><label class="form-label">Medication</label><input type="text" name="medication" class="form-control" placeholder="e.g. Coartem, Paracetamol"></div>
+    <div class="col-md-6"><label class="form-label">Dosage</label><input type="text" name="dosage" class="form-control" placeholder="e.g. 2 tabs twice daily × 3 days"></div>
+    <div class="col-12"><label class="form-label">Additional Notes</label><textarea name="notes" class="form-control" rows="3" placeholder="Any extra advice…"></textarea></div>
+  </div>
+  <div class="mt-4 d-flex gap-2"><button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save Prescription</button><a href="{{ url_for('prescriptions') }}" class="btn btn-outline-secondary">Cancel</a></div>
+</form></div>
+</div></div></div>{% endblock %}

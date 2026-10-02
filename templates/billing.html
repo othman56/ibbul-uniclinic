@@ -1,0 +1,17 @@
+{% extends 'staff_base.html' %}
+{% block title %}Billing{% endblock %}{% block page_title %}Billing & Payments{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-3"><a href="{{ url_for('new_bill') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Create Bill</a></div>
+<div class="card"><div class="card-body p-0">
+{% if bills %}
+<table class="table table-hover mb-0">
+  <thead class="table-light"><tr><th class="px-4">Patient</th><th>Date</th><th>Description</th><th>Amount (₦)</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>{% for b in bills %}<tr>
+    <td class="px-4"><div class="fw-semibold">{{ b.patient_name }}</div><code style="font-size:.75rem;">{{ b.matric_no }}</code></td>
+    <td>{{ b.date }}</td><td>{{ b.description }}</td><td class="fw-semibold">{{ "%.2f"|format(b.amount) }}</td>
+    <td><span class="badge {% if b.status=='Paid' %}bg-success{% else %}bg-danger{% endif %}">{{ b.status }}</span></td>
+    <td>{% if b.status=='Unpaid' %}<form method="POST" action="{{ url_for('pay_bill', bid=b.id) }}" class="d-inline"><button type="submit" class="btn btn-sm btn-success py-0 px-2" onclick="return confirm('Mark as paid?')"><i class="bi bi-check-lg"></i> Paid</button></form>{% else %}<span class="text-muted" style="font-size:.8rem;">✓ Settled</span>{% endif %}</td>
+  </tr>{% endfor %}</tbody>
+</table>
+{% else %}<div class="text-center py-5 text-muted"><i class="bi bi-receipt fs-1 d-block mb-2"></i>No bills yet.</div>{% endif %}
+</div></div>{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'staff_base.html' %}
+{% block title %}Prescriptions{% endblock %}{% block page_title %}Prescriptions & Records{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-3"><a href="{{ url_for('new_prescription') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>New Prescription</a></div>
+<div class="card"><div class="card-body p-0">
+{% if prescriptions %}
+<table class="table table-hover mb-0">
+  <thead class="table-light"><tr><th class="px-4">Patient</th><th>Date</th><th>Diagnosis</th><th>Medication</th><th>Dosage</th><th>Notes</th></tr></thead>
+  <tbody>{% for rx in prescriptions %}<tr>
+    <td class="px-4"><div class="fw-semibold">{{ rx.patient_name }}</div><code style="font-size:.75rem;">{{ rx.matric_no }}</code></td>
+    <td>{{ rx.date }}</td><td><span class="badge bg-info-subtle text-info">{{ rx.diagnosis }}</span></td>
+    <td>{{ rx.medication }}</td><td>{{ rx.dosage }}</td><td style="font-size:.8rem;color:#6b8c7e;">{{ rx.notes or '—' }}</td>
+  </tr>{% endfor %}</tbody>
+</table>
+{% else %}<div class="text-center py-5 text-muted"><i class="bi bi-capsule fs-1 d-block mb-2"></i>No prescriptions yet.</div>{% endif %}
+</div></div>{% endblock %}
